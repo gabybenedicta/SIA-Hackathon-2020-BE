@@ -4,13 +4,13 @@ from django.db import models
 
 class User(models.Model):
 	name = models.CharField(max_length=30)
-	kf_member= models.IntegerFeld()
+	kf_member= models.IntegerField()
 	is_lounge = models.BooleanField(default=False)
 	is_shower = models.BooleanField(default=False)
 
 class Lounge(models.Model):
 	name = models.CharField(max_length=30)
 
-class ShowerStall(model.Models):
+class ShowerStall(models.Model):
 	lounge = models.ForeignKey(Lounge, on_delete=models.CASCADE)
 	is_vacant = models.BooleanField(default=True)
