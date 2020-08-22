@@ -33,16 +33,10 @@ def join_shower_queue(request, pk):
             message = "User does not exist"
             return Response(message, status=status.HTTP_404_NOT_FOUND)
         
-        try:
-            lounge = Lounge.objects.get(id=request.data["lounge_id"])
-        except Lounge.DoesNotExist:
-            message = "Lounge does not exist"
-            return Response(message, status=status.HTTP_404_NOT_FOUND)
-
         response = {"isInShower" : False}
         response["queueLength"] = len(list(ShowerQueue.objects.all()))
 
-        vacant_stalls = list(ShowerStall.objects.filter(is_vacant = True, lounge = lounge))
+        vacant_stalls = list(ShowerStall.objects.filter(is_vacant = True))
         
         if len(vacant_stalls) > 0:
             shower_stall = vacant_stalls[0]
