@@ -36,7 +36,7 @@ def join_shower_queue(request, pk):
         response = {"isInShower" : False}
         response["queueLength"] = len(list(ShowerQueue.objects.all()))
 
-        vacant_stalls = list(ShowerStall.objects.filter(is_vacant = True))
+        vacant_stalls = list(ShowerStall.objects.filter(user_id = -1))
         print(vacant_stalls)
         print(len(vacant_stalls))
         if len(vacant_stalls) > 0:
