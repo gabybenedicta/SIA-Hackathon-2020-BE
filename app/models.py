@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 
 # Create your models here.
 
@@ -18,4 +19,4 @@ class ShowerStall(models.Model):
 
 class ShowerQueue(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
-	datetime = models.DateTimeField()
+	datetime = models.DateTimeField(default=datetime.now)
