@@ -84,6 +84,7 @@ def check_out_shower(request, pk):
             stall.user_id = queues[0].user.id
         else:
             stall.is_vacant = True
+            stall.user_id = -1
         
         stall.save()
 
