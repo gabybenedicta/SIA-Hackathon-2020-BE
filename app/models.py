@@ -15,7 +15,7 @@ class Lounge(models.Model):
 class ShowerStall(models.Model):
 	lounge = models.ForeignKey(Lounge, on_delete=models.CASCADE)
 	is_vacant = models.BooleanField(default=True)
-	user_id = models.IntegerField(default=None)
+	user_id = models.IntegerField(default=-1)
 
 class ShowerQueue(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
