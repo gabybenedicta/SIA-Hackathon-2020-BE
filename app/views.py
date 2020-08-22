@@ -141,7 +141,8 @@ def get_queue_status(request, pk):
         queue_infront = list(ShowerQueue.objects.filter(datetime__lt=user_datetime))
         queueLength = len(queue_infront)
     else:
-        queueLength = len(users_in_queue)
+        user_queue = list(ShowerQueue.objects.all())
+        queueLength = len(user_queue)
     response = {
         "isJoined": isJoined,
         "isInShower": isInShower,
