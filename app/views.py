@@ -2,7 +2,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
 
-from .models import User, ShowerQueue, ShowerStall
+from .models import User, ShowerQueue, ShowerStall, Lounge
 
 @api_view(['POST'])
 def process_barcode(request, pk):
