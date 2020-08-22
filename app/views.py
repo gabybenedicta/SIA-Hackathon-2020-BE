@@ -2,7 +2,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
 
-from .models import User, ShowerQueue
+from .models import User, ShowerQueue, ShowerStall
 
 
 @api_view(['POST'])
@@ -23,3 +23,8 @@ def process_barcode(request, pk):
             user.save()
             return Response(returned, status = status.HTTP_200_OK)
         return Response("Not Found", status= status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
+def get_queue_status(request):
+    #isJoined, canShower, isInShower, queueLength
+    #get the empty stalls
