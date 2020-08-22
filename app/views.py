@@ -37,8 +37,10 @@ def join_shower_queue(request, pk):
         response["queueLength"] = len(list(ShowerQueue.objects.all()))
 
         vacant_stalls = list(ShowerStall.objects.filter(is_vacant = True))
-        
+        print(vacant_stalls)
+        print(len(vacant_stalls))
         if len(vacant_stalls) > 0:
+            print("here")
             shower_stall = vacant_stalls[0]
 
             response["canShower"] = True
@@ -50,11 +52,12 @@ def join_shower_queue(request, pk):
             shower_stall.save()
 
         else:
+            print("also here")
             response["isJoined"] = True
             response["canShower"] = False
             response["stallEnter"] = None
             queue = ShowerQueue(user=user)
-            
+        print(response)
         return Response(response, status = status.HTTP_200_OK)
 
 @api_view(['POST'])
