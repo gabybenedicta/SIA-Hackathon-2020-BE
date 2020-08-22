@@ -45,7 +45,7 @@ def get_queue_status(request, pk):
     except User.DoesNotExist:
         message = "User does not exist"
         return Response(message, status=status.HTTP_404_NOT_FOUND)
-    if user.id in queue:
+    if user.id in users_in_queue:
         isJoined = True
 
     #check if user is in shower
