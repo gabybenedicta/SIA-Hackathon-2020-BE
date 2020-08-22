@@ -15,7 +15,7 @@ def process_barcode(request, pk):
             return Response(message, status=status.HTTP_404_NOT_FOUND)
         
         if user.is_lounge and not user.is_shower and request.data["barcodeValue"] == "123457629":
-            queue = list(ShowerQueue.objects.get(lounge_id = 1))
+            queue = list(ShowerQueue.objects.get(id = 1))
             returned = {
                 redirectPage: "Showers",
                 queueCount: len(queue)
