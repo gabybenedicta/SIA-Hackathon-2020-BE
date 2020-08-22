@@ -14,13 +14,13 @@ def process_barcode(request, pk):
             message = "User does not exist"
             return Response(message, status=status.HTTP_404_NOT_FOUND)
         
-        print("USER")
-        print(user)
-
-        if request.data["barcodeValue"] == "123457629":
+        if user.is_lounge and not user.is_shower and request.data["barcodeValue"] == "123457629":
             returned = "Showers"
+            #change shower status
+            user.is_shower = True
+            user.save()
             return Response(returned, status = status.HTTP_200_OK)
-        elif request.data["barcodeValue"] == "9189283746":
+        elif user.is_lounge and request.data["barcodeValue"] == "9189283746":
             returned = "Services"
             return Response(returned, status = status.HTTP_200_OK)
         return Response("Not Found", status= status.HTTP_404_NOT_FOUND)
