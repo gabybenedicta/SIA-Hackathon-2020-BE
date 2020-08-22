@@ -35,9 +35,6 @@ def get_queue_status(request, pk):
     queueLength = False
     stallEnter = None
 
-    #get the empty stalls
-    empty_stalls = list(ShowerStall.objects.filter(is_vacant=True))
-
     #check if user is in queue
     users_in_queue = list(ShowerQueue.objects.values_list('user_id'))
     try:
@@ -48,19 +45,19 @@ def get_queue_status(request, pk):
     if user.id in users_in_queue:
         isJoined = True
 
+    #get the assigned stalls
+    assigned_stall = list(ShowerStall.objects.filter(user_id=user.id))
+    if(len(assigned_stall) > 0):
+        stallEnter = assigned_stall[0].id
     #check if user is in shower
     isInShower = user.is_shower
 
-    #there is an empty stall
-    if len(empty_stalls) == 0:
-        canShower = True
-        stallEnter = empty_stalls[0].id
     #not showering but in the queue
     elif(not isInShower and isJoined):
         user_queue = ShowerQueue.objects.filter(user_id = user.id)
         user_datetime = user_queue.datetime
         #get all the people in front
-        queue_infront = list(ShowerQueue.objects.filter(datetime_lt=user_datetime))
+        queue_infront = list(ShowerQueue.objects.filter(datetime__lt=user_datetime))
         queueLength = len(queue_infront)
     else:
         queueLength = len(users_in_queue)
@@ -72,6 +69,9 @@ def get_queue_status(request, pk):
         "stallEnter": stallEnter
     }
     return Response(response, status = status.HTTP_200_OK)
+
+    
+    
 
         
     
