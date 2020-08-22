@@ -65,11 +65,11 @@ def get_queue_status(request, pk):
     else:
         queueLength = len(users_in_queue)
     response = {
-        isJoined,
-        isInShower,
-        canShower,
-        queueLength,
-        stallEnter
+        "isJoined": isJoined,
+        "isInShower": isInShower,
+        "canShower": canShower,
+        "queueLength":queueLength,
+        "stallEnter": stallEnter
     }
     return Response(response, status = status.HTTP_200_OK)
 
