@@ -32,7 +32,7 @@ def get_queue_status(request, pk):
     isJoined = False
     canShower = False
     isInShower = False
-    queueLength = False
+    queueLength = None
     stallEnter = None
 
     #check if user is in queue
@@ -68,6 +68,35 @@ def get_queue_status(request, pk):
         "stallEnter": stallEnter
     }
     return Response(response, status = status.HTTP_200_OK)
+
+@api_view(["POST"])
+def check_in_to_shower(request, pk):
+    if request.method != "POST":
+        return Response("Not Found", status= status.HTTP_404_NOT_FOUND)
+    try:
+        user = User.objects.get(id=pk)
+    except User.DoesNotExist:
+        message = "User does not exist"
+        return Response(message, status=status.HTTP_404_NOT_FOUND)
+    
+    user.is_shower = True
+    user.save()
+
+    isJoined = False
+    canShower = False
+    isInShower = True
+    queueLength = None
+    stallEnter = None
+
+    response = {
+        "isJoined": isJoined,
+        "isInShower": isInShower,
+        "canShower": canShower,
+        "queueLength":queueLength,
+        "stallEnter": stallEnter
+    }
+    return Response(response, status = status.HTTP_200_OK)
+
 
     
     
