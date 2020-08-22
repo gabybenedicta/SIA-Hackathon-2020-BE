@@ -130,6 +130,7 @@ def get_queue_status(request, pk):
     assigned_stall = list(ShowerStall.objects.filter(user_id=user.id))
     if(len(assigned_stall) > 0):
         stallEnter = assigned_stall[0].id
+        canShower = True
     #check if user is in shower
     isInShower = user.is_shower
     #not showering but in the queue
