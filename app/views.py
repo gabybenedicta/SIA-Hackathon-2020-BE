@@ -51,9 +51,8 @@ def get_queue_status(request, pk):
         stallEnter = assigned_stall[0].id
     #check if user is in shower
     isInShower = user.is_shower
-
     #not showering but in the queue
-    elif(not isInShower and isJoined):
+    if(not isInShower and isJoined):
         user_queue = ShowerQueue.objects.filter(user_id = user.id)
         user_datetime = user_queue.datetime
         #get all the people in front
