@@ -25,7 +25,7 @@ def process_barcode(request, pk):
 
 
 @api_view(['POST'])
-def join_shower_queue(request, pk, lounge_id):
+def join_shower_queue(request, pk):
     if request.method == 'POST':
         try:
             user = User.objects.get(id=pk)
@@ -34,7 +34,7 @@ def join_shower_queue(request, pk, lounge_id):
             return Response(message, status=status.HTTP_404_NOT_FOUND)
         
         try:
-            lounge = Lounge.objects.get(id=lounge_id)
+            lounge = Lounge.objects.get(id=request.data["lounge_id"])
         except Lounge.DoesNotExist:
             message = "Lounge does not exist"
             return Response(message, status=status.HTTP_404_NOT_FOUND)
@@ -64,18 +64,12 @@ def join_shower_queue(request, pk, lounge_id):
         return Response(response, status = status.HTTP_200_OK)
 
 @api_view(['POST'])
-def check_out_shower(request, pk, lounge_id):
+def check_out_shower(request, pk):
     if request.method == 'POST':
         try:
             user = User.objects.get(id=pk)
         except User.DoesNotExist:
             message = "User does not exist"
-            return Response(message, status=status.HTTP_404_NOT_FOUND)
-
-        try:
-            lounge = Lounge.objects.get(id=lounge_id)
-        except Lounge.DoesNotExist:
-            message = "Lounge does not exist"
             return Response(message, status=status.HTTP_404_NOT_FOUND)
 
         # check out
