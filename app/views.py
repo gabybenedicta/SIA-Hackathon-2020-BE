@@ -3,6 +3,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 
 from .models import User, ShowerQueue, ShowerStall, Lounge
+from django.utils import timezone
 
 @api_view(['POST'])
 def process_barcode(request, pk):
@@ -36,7 +37,7 @@ def join_shower_queue(request, pk):
         response = {"isInShower" : False}
         response["queueLength"] = len(list(ShowerQueue.objects.all()))
 
-        vacant_stalls = list(ShowerStall.objects.filter(is_vacant = True))
+        vacant_stalls = list(ShowerStall.objects.filter(user_id = -1))
         print(vacant_stalls)
         print(len(vacant_stalls))
         if len(vacant_stalls) > 0:
@@ -56,7 +57,7 @@ def join_shower_queue(request, pk):
             response["isJoined"] = True
             response["canShower"] = False
             response["stallEnter"] = None
-            queue = ShowerQueue(user=user)
+            queue = ShowerQueue.objects.create(user_id=user.id, datetime=timezone.now())
         print(response)
         return Response(response, status = status.HTTP_200_OK)
 
@@ -114,14 +115,16 @@ def get_queue_status(request, pk):
     queueLength = None
     stallEnter = None
 
-    #check if user is in queue
-    users_in_queue = list(ShowerQueue.objects.values_list('user_id'))
     try:
         user = User.objects.get(id=pk)
     except User.DoesNotExist:
         message = "User does not exist"
         return Response(message, status=status.HTTP_404_NOT_FOUND)
-    if user.id in users_in_queue:
+    
+    #check if user is in queue
+    queue_of_user = list(ShowerQueue.objects.filter(user_id=user.id))
+    print(queue_of_user)
+    if len(queue_of_user):
         isJoined = True
 
     #get the assigned stalls
@@ -133,13 +136,14 @@ def get_queue_status(request, pk):
     isInShower = user.is_shower
     #not showering but in the queue
     if(not isInShower and isJoined):
-        user_queue = ShowerQueue.objects.filter(user_id = user.id)
-        user_datetime = user_queue.datetime
+        user_queue = list(ShowerQueue.objects.filter(user_id = user.id))
+        user_datetime = user_queue[0].datetime
         #get all the people in front
         queue_infront = list(ShowerQueue.objects.filter(datetime__lt=user_datetime))
         queueLength = len(queue_infront)
     else:
-        queueLength = len(users_in_queue)
+        user_queue = list(ShowerQueue.objects.all())
+        queueLength = len(user_queue)
     response = {
         "isJoined": isJoined,
         "isInShower": isInShower,
