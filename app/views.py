@@ -135,8 +135,8 @@ def get_queue_status(request, pk):
     isInShower = user.is_shower
     #not showering but in the queue
     if(not isInShower and isJoined):
-        user_queue = ShowerQueue.objects.filter(user_id = user.id)
-        user_datetime = user_queue.datetime
+        user_queue = list(ShowerQueue.objects.filter(user_id = user.id))
+        user_datetime = user_queue[0].datetime
         #get all the people in front
         queue_infront = list(ShowerQueue.objects.filter(datetime__lt=user_datetime))
         queueLength = len(queue_infront)
