@@ -79,6 +79,7 @@ def check_out_shower(request, pk):
         queues = list(ShowerQueue.objects.all())
         if queues:
             stall.user_id = queues[0].user.id
+            queues[0].delete()
         else:
             stall.is_vacant = True
             stall.user_id = -1
