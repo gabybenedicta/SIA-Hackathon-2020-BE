@@ -17,7 +17,7 @@ def process_barcode(request, pk):
         if user.is_lounge and not user.is_shower and request.data["barcodeValue"] == "123457629":
             returned = "Showers"
             return Response(returned, status = status.HTTP_200_OK)
-        elif user.is_lounge and request.data["barcodeValue"] == "9189283746":
+        elif request.data["barcodeValue"] == "9189283746":
             returned = "Services"
             user.is_lounge = True
             user.save()
