@@ -9,7 +9,7 @@ from .models import User
 def process_barcode(request, pk):
     if request.method == 'POST':
         try:
-            user = User.objects.get(uid=pk)
+            user = User.objects.get(id=pk)
         except User.DoesNotExist:
             message = "User does not exist"
             return Response(message, status=status.HTTP_404_NOT_FOUND)
