@@ -1,4 +1,4 @@
-# Loungewie : Front-End
+# Loungewie : Back-End
 > React Native Mobile Application built for [Singapore Airlines AppChallenge 2020 - Singapore Student track](https://appchallenge.singaporeair.com/en/challenges/students)
 
 This is the Back-End codebase for [Loungewie - A Mobile Queue Management System](https://github.com/maggiekoesno/SIA-Hackathon-2020/).
