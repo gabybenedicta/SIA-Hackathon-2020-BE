@@ -114,14 +114,16 @@ def get_queue_status(request, pk):
     queueLength = None
     stallEnter = None
 
-    #check if user is in queue
-    users_in_queue = list(ShowerQueue.objects.values_list('user_id'))
     try:
         user = User.objects.get(id=pk)
     except User.DoesNotExist:
         message = "User does not exist"
         return Response(message, status=status.HTTP_404_NOT_FOUND)
-    if user.id in users_in_queue:
+    
+    #check if user is in queue
+    queue_of_user = list(ShowerQueue.objects.filter(user_id=user.id))
+    print(queue_of_user)
+    if len(queue_of_user):
         isJoined = True
 
     #get the assigned stalls
