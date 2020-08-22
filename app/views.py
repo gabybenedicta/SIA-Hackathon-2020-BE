@@ -3,6 +3,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 
 from .models import User, ShowerQueue, ShowerStall, Lounge
+from django.utils import timezone
 
 @api_view(['POST'])
 def process_barcode(request, pk):
@@ -56,7 +57,7 @@ def join_shower_queue(request, pk):
             response["isJoined"] = True
             response["canShower"] = False
             response["stallEnter"] = None
-            queue = ShowerQueue(user=user)
+            queue = ShowerQueue.objects.create(user_id=user.id, datetime=timezone.now())
         print(response)
         return Response(response, status = status.HTTP_200_OK)
 

@@ -20,3 +20,8 @@ class ShowerStall(models.Model):
 class ShowerQueue(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	datetime = models.DateTimeField(default=datetime.now)
+
+	# @classmethod
+	# def create(cls, user_id, datetime):
+	# 	queue = cls(user_id = user_id, datetime = datetime)
+	# 	return queue
